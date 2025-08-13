@@ -1,0 +1,9 @@
+{
+
+  "id": "full-rect_1",
+  "name": "Full Rect_11 (Vertex Colors)",
+  "description": "Draw a full-canvas rectangle using two triangles with per-vertex colors.",
+  "entry": "./modules/main.js",
+  "tags": ["basics", "vertex"],
+  "thumbnail": ""
+}
