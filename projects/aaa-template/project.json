@@ -1,8 +1,0 @@
-{
-  "id": "template",
-  "name": "Project full name  ",
-  "description": "Project description ",
-  "entry": "./modules/main.js",
-  "thumbnail": "", 
-   "tags": ["concept1", "concept2", "concept3"]
-}

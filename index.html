@@ -1,26 +1,16 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WebGPU Project Gallery</title>
-  <link rel="stylesheet" href="/style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WebGPU Gallery — Chapter 00</title>
+  <link rel="stylesheet" href="./style.css" />
 </head>
 <body>
-  <main>
-    <aside>
-      <h1>Projects</h1>
-      <ul id="gallery"></ul>
-        <div class="panel">
-      <label for="overlayOpacity">Overlay opacity</label>
-      <input id="overlayOpacity" type="range" min="0" max="1" step="0.01" value="0.10" />
-       <output id="overlayOpacityVal">0.10</output>
-    </div>
-    </aside>
-    <section>
-      <canvas id="gfx"></canvas>
-    </section>
-  </main>
-  <script type="module" src="/main.js"></script>
+  <header class="topbar"><h1>WebGPU Gallery — Chapter 00 (Bootstrapping)</h1></header>
+  <main class="viewport"><canvas id="gfx"></canvas></main>
+
+  <!-- To switch chapters later, change the src attribute to that project's main.js -->
+  <script type="module" src="./projects/00-bootstrapping/modules/main.js"></script>
 </body>
 </html>
