@@ -1,45 +1,85 @@
-// modules/webgpuSetup.js
+//webgpuSetup.js
+
 export class WebGPUSetup {
-  constructor(canvas) {
-    this.canvas = canvas;
-    this.context = canvas.getContext('webgpu');
-    this.device = null;
-    this.format = null;
-    this.depthTexture = null;
-  }
 
-  async initialize(alphaMode = "opaque") {
-    if (!navigator.gpu) {
-      throw new Error('WebGPU not supported in this browser.');
-    }
+   constructor (canvas, {alphaMode = 'opaque' ,  maxDPR = 2 , powerPreference = 'high-performace'} = {}) {
 
-    const adapter = await navigator.gpu.requestAdapter();
-    if (!adapter) throw new Error('Failed to get GPU adapter');
+      this.canvas = canvas; 
+      this.alphaMode = alphaMode; 
+      this.maxDPR = maxDPR
+      this.powerPreference = powerPreference; 
 
-    this.device = await adapter.requestDevice();
-    this.format = navigator.gpu.getPreferredCanvasFormat();
+      this.adapter = null; 
+      this.device = null;
+      this.context = null; 
+      this.format = null; 
 
-    this.configureContext(alphaMode);
-    window.addEventListener('resize', () => this.configureContext(alphaMode));
+   }
 
-    return this;
-  }
+   async init() {
 
-  configureContext(alphaMode) {
-    const dpr = Math.max(1, window.devicePixelRatio || 1);
-    const width = Math.floor(this.canvas.clientWidth || window.innerWidth);
-    const height = Math.floor(this.canvas.clientHeight || window.innerHeight);
-    this.canvas.width = Math.max(1, Math.floor(width * dpr));
-    this.canvas.height = Math.max(1, Math.floor(height * dpr));
+      if(!('gpu' in navigator)) {
+        throw new Error('Webgpu is not supported in this browser');
+      }
 
-    this.context.configure({
-      device: this.device,
-      format: this.format,
-      alphaMode
-    });
-  }
+      this.context = this.canvas.getContext('webgpu');
 
-  createView() {
-    return this.context.getCurrentTexture().createView();
-  }
-}
+      this.adapter = await navigator.gpu.requestAdapter({powerPreferenc: this.powerPreference}) ||
+                     await navigator.gpu.requestAdapter()  ; 
+
+      if(!this.adapter) {
+        throw new Error('Failed to get adapter');
+      }
+
+      this.device = await this.adapter.requestDevice();
+      this.format = navigator.gpu.getPreferredCanvasFormat();
+      
+      this.resize(); 
+
+      this.context.configure({
+          device : this.device, 
+          format: this.format, 
+          alphaMode: this.alphaMode
+
+      });
+
+      this.device.lost.then(info =>{
+
+        console.warn('Gpu device lost', info.message);
+
+      });
+
+      return this;
+
+   }
+
+   resize( ) {
+
+       const dpr = Math.min(window.devicePixelRatio || 1, this.maxDPR);
+
+       const w = Math.max(1, Math.floor(this.canvas.clientWidth*dpr));
+       
+       const h = Math.max(1, Math.floor(this.canvas.clientHeight*dpr));
+
+       if( w !== this.canvas.width || h !== this.canvas.height) {
+
+          this.canvas.width = w; 
+          this.canvas.height = h;
+
+       }
+
+
+   }
+
+   get deviceInfo () {
+
+      return {device : this.device, context : this.context, format: this.format}
+
+   }
+
+   destroy() {
+
+
+   }
+  
+} 

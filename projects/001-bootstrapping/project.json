@@ -1,0 +1,31 @@
+{
+  "name": "11-bootstrapping",
+  "goal": "Establish device/context, configure canvas, render a single triangle, and set up a clean render loop.",
+  "flow": [
+    "requestAdapter → requestDevice",
+    "canvas.getContext('webgpu') → context.configure({ device, format })",
+    "createBuffer(vertices) → createShaderModule(WGSL) → createRenderPipeline",
+    "encode: beginRenderPass → setPipeline → setVertexBuffer → draw",
+    "submit in requestAnimationFrame loop"
+  ],
+
+  "keys" : [
+      "webgpu structure" 
+
+  ],  
+
+  "done_when": [
+    "Triangle is visible",
+    "No validation errors during window resizes",
+    "Loop keeps 60fps on idle"
+  ],
+  "next": "01-vertex-buffers (interleaved attributes, index buffer, interpolation)" , 
+
+    "id": "template",
+
+  "description": "Project description ",
+  "entry": "./modules/main.js",
+  "needsMedia": true, 
+  "thumbnail": "", 
+   "tags": ["concept1", "concept2", "concept3"]
+}
